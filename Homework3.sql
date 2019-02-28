@@ -1,11 +1,11 @@
-#1. Сделать запрос, в котором мы выберем все данные о городе – регион, страна.
+п»ї#1. РЎРґРµР»Р°С‚СЊ Р·Р°РїСЂРѕСЃ, РІ РєРѕС‚РѕСЂРѕРј РјС‹ РІС‹Р±РµСЂРµРј РІСЃРµ РґР°РЅРЅС‹Рµ Рѕ РіРѕСЂРѕРґРµ вЂ“ СЂРµРіРёРѕРЅ, СЃС‚СЂР°РЅР°.
 SELECT * FROM _cities LEFT JOIN (_regions, _countries) ON (_regions.id = _cities.region_id AND _countries.id = _cities.country_id) LIMIT 100;
 
-#2. Выбрать все города из Московской области.
-SELECT * FROM _cities LEFT JOIN (_regions, _countries) ON (_regions.id = _cities.region_id AND _countries.id = _cities.country_id) WHERE _regions.title = 'Московская область' LIMIT 100;
+#2. Р’С‹Р±СЂР°С‚СЊ РІСЃРµ РіРѕСЂРѕРґР° РёР· РњРѕСЃРєРѕРІСЃРєРѕР№ РѕР±Р»Р°СЃС‚Рё.
+SELECT * FROM _cities LEFT JOIN (_regions, _countries) ON (_regions.id = _cities.region_id AND _countries.id = _cities.country_id) WHERE _regions.title = 'РњРѕСЃРєРѕРІСЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ' LIMIT 100;
 
-#База данных «Сотрудники»:
-#1. Выбрать среднюю зарплату по отделам.
+#Р‘Р°Р·Р° РґР°РЅРЅС‹С… В«РЎРѕС‚СЂСѓРґРЅРёРєРёВ»:
+#1. Р’С‹Р±СЂР°С‚СЊ СЃСЂРµРґРЅСЋСЋ Р·Р°СЂРїР»Р°С‚Сѓ РїРѕ РѕС‚РґРµР»Р°Рј.
 SELECT AVG(s.salary) avg_salary, d.dept_name 
 FROM dept_emp de 
 LEFT JOIN departments d ON de.dept_no = d.dept_no 
@@ -13,18 +13,18 @@ LEFT JOIN salaries s ON de.emp_no = s.emp_no
 GROUP BY d.dept_name
 ORDER BY avg_salary;
 
-#2. Выбрать максимальную зарплату у сотрудника.
+#2. Р’С‹Р±СЂР°С‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ Р·Р°СЂРїР»Р°С‚Сѓ Сѓ СЃРѕС‚СЂСѓРґРЅРёРєР°.
 SELECT CONCAT (e.first_name,',',last_name) AS full_name, MAX(salary) max_salary
 FROM salaries s
 LEFT JOIN employees e
 ON s.emp_no = e.emp_no
 GROUP BY full_name;
 
-#3. Удалить одного сотрудника, у которого максимальная зарплата.
+#3. РЈРґР°Р»РёС‚СЊ РѕРґРЅРѕРіРѕ СЃРѕС‚СЂСѓРґРЅРёРєР°, Сѓ РєРѕС‚РѕСЂРѕРіРѕ РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ Р·Р°СЂРїР»Р°С‚Р°.
 DELETE FROM employees WHERE emp_no IN (SELECT MAX(salary) FROM salaries);
 
 
-#4. Посчитать количество сотрудников во всех отделах.
+#4. РџРѕСЃС‡РёС‚Р°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ РІРѕ РІСЃРµС… РѕС‚РґРµР»Р°С….
 SELECT COUNT(emp_no) AS emp_cnt, d.dept_name
 FROM dept_emp
 LEFT JOIN departments d
@@ -33,7 +33,7 @@ WHERE dept_emp.to_date > now()
 GROUP BY dept_emp.dept_no
 ORDER BY emp_cnt;
 
-# 5. Найти количество сотрудников в отделах и посмотреть, сколько всего денег получает отдел.
+# 5. РќР°Р№С‚Рё РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ РІ РѕС‚РґРµР»Р°С… Рё РїРѕСЃРјРѕС‚СЂРµС‚СЊ, СЃРєРѕР»СЊРєРѕ РІСЃРµРіРѕ РґРµРЅРµРі РїРѕР»СѓС‡Р°РµС‚ РѕС‚РґРµР».
 SELECT COUNT(dept_emp.emp_no) AS emp_cnt, SUM(s.salary) AS total_salary, d.dept_name
 FROM dept_emp
 LEFT JOIN salaries s
