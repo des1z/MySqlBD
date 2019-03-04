@@ -1,4 +1,4 @@
-#1. Создать VIEW на основе запросов, которые вы сделали в ДЗ к уроку 3.
+п»ї#1. РЎРѕР·РґР°С‚СЊ VIEW РЅР° РѕСЃРЅРѕРІРµ Р·Р°РїСЂРѕСЃРѕРІ, РєРѕС‚РѕСЂС‹Рµ РІС‹ СЃРґРµР»Р°Р»Рё РІ Р”Р— Рє СѓСЂРѕРєСѓ 3.
 CREATE VIEW salary_avg AS 
  SELECT AVG(s.salary) , dep.dept_name FROM dept_emp emp
  INNER JOIN salaries s ON emp.emp_no = s.emp_no
@@ -7,7 +7,7 @@ CREATE VIEW salary_avg AS
 
 SELECT * FROM salary_avg;
  
-#2. Создать функцию, которая найдет менеджера по имени и фамилии.
+#2. РЎРѕР·РґР°С‚СЊ С„СѓРЅРєС†РёСЋ, РєРѕС‚РѕСЂР°СЏ РЅР°Р№РґРµС‚ РјРµРЅРµРґР¶РµСЂР° РїРѕ РёРјРµРЅРё Рё С„Р°РјРёР»РёРё.
 DELIMITER //
 CREATE FUNCTION find_manager_id(first_name VARCHAR(50), last_name VARCHAR(50)) RETURNS INT DETERMINISTIC
  BEGIN
@@ -24,7 +24,7 @@ CREATE FUNCTION find_manager_id(first_name VARCHAR(50), last_name VARCHAR(50)) R
  
 SELECT find_manager_id(first_name, last_name) AS 'ID' FROM employees WHERE first_name = 'Hilary' AND last_name = 'Kambil';
  
-#3. Создать триггер, который при добавлении нового сотрудника будет выплачивать ему вступительный бонус, занося запись об этом в таблицу salary.
+#3. РЎРѕР·РґР°С‚СЊ С‚СЂРёРіРіРµСЂ, РєРѕС‚РѕСЂС‹Р№ РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё РЅРѕРІРѕРіРѕ СЃРѕС‚СЂСѓРґРЅРёРєР° Р±СѓРґРµС‚ РІС‹РїР»Р°С‡РёРІР°С‚СЊ РµРјСѓ РІСЃС‚СѓРїРёС‚РµР»СЊРЅС‹Р№ Р±РѕРЅСѓСЃ, Р·Р°РЅРѕСЃСЏ Р·Р°РїРёСЃСЊ РѕР± СЌС‚РѕРј РІ С‚Р°Р±Р»РёС†Сѓ salary.
 DELIMITER //
 CREATE TRIGGER bonus AFTER INSERT ON employees
  FOR EACH ROW
