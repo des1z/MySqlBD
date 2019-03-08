@@ -1,0 +1,14 @@
+﻿#1. Создать нового пользователя и задать ему права доступа на базу данных «Страны и города мира».
+
+CREATE USER IF NOT EXISTS 'viktor'@'%' IDENTIFIED BY '123123';	
+GRANT ALL PRIVILEGES ON `CountryDB`.* TO 'viktor'@'%';
+FLUSH PRIVILEGES;
+
+
+
+#2. Сделать резервную копию базы, удалить базу и пересоздать из бекапа.
+      
+mysqldump -u root -p shop > D:\GB\DB\dump.sql
+DROP database shop;
+CREATE DATABASE shop;
+mysql -u root -p shop < D:\GB\DB\dump.sql
