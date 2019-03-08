@@ -1,0 +1,273 @@
+﻿C:\Users\Desis\Desktop\MongoDB\Data\home>mongo
+MongoDB shell version v4.0.4
+connecting to: mongodb://127.0.0.1:27017
+MongoDB server version: 4.0.4
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+        http://docs.mongodb.org/
+Questions? Try the support group
+        http://groups.google.com/group/mongodb-user
+Server has startup warnings:
+2019-03-07T11:55:02.630+0300 I CONTROL  [initandlisten]
+2019-03-07T11:55:02.631+0300 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2019-03-07T11:55:02.631+0300 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2019-03-07T11:55:02.631+0300 I CONTROL  [initandlisten]
+> show dbs;
+admin  0.000GB
+local  0.000GB
+> use gb-mysql;
+switched to db gb-mysql
+> db
+gb-mysql
+> show collections;
+>
+>
+> db.user.insert({firstname:"Ivan", lastname:"Ivanov", age:30});
+WriteResult({ "nInserted" : 1 })
+> show collections;
+user
+> db.user.insert({firstname:"Anna", lastname:"Ivanova", age:25});
+WriteResult({ "nInserted" : 1 })
+> db.user.find({});
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "firstname" : "Ivan", "lastname" : "Ivanov", "age" : 30 }
+{ "_id" : ObjectId("5af169ff6c0eac38bb15dc41"), "firstname" : "Anna", "lastname" : "Ivanova", "age" : 25 }
+> db.user.findOne({});
+{
+        "_id" : ObjectId("5af169c56c0eac38bb15dc40"),
+        "firstname" : "Ivan",
+        "lastname" : "Ivanov",
+        "age" : 30
+}
+> db.user.find({name:"Ivan"});
+> db.user.find({"name":"Ivan"});
+> db.user.find({"name": "Ivan"});
+>
+>
+> db.user.find({firstname: "Ivan"});
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "firstname" : "Ivan", "lastname" : "Ivanov", "age" : 30 }
+> db.user.find({firstname: "Ivan"}, {age: true});
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "age" : 30 }
+> db.user.find({firstname: "Ivan"}, {age: true, _id: false});
+{ "age" : 30 }
+>
+>
+> db.user.find({}).pretty();
+{
+        "_id" : ObjectId("5af169c56c0eac38bb15dc40"),
+        "firstname" : "Ivan",
+        "lastname" : "Ivanov",
+        "age" : 30
+}
+{
+        "_id" : ObjectId("5af169ff6c0eac38bb15dc41"),
+        "firstname" : "Anna",
+        "lastname" : "Ivanova",
+        "age" : 25
+}
+>
+>
+> db.user.insert({firstname:"Nesty", lastname:"Ivanova", age:10});
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({firstname:"Pert", lastname:"Ivanov", age:5});
+WriteResult({ "nInserted" : 1 })
+>
+>
+> db.user.find({});
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "firstname" : "Ivan", "lastname" : "Ivanov", "age" : 30 }
+{ "_id" : ObjectId("5af169ff6c0eac38bb15dc41"), "firstname" : "Anna", "lastname" : "Ivanova", "age" : 25 }
+{ "_id" : ObjectId("5af16bbf6c0eac38bb15dc42"), "firstname" : "Nesty", "lastname" : "Ivanova", "age" : 10 }
+{ "_id" : ObjectId("5af16bce6c0eac38bb15dc43"), "firstname" : "Pert", "lastname" : "Ivanov", "age" : 5 }
+>
+>
+> db.user.find({age: {$gt: 11}});
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "firstname" : "Ivan", "lastname" : "Ivanov", "age" : 30 }
+{ "_id" : ObjectId("5af169ff6c0eac38bb15dc41"), "firstname" : "Anna", "lastname" : "Ivanova", "age" : 25 }
+> db.user.find({age: {$gt: 10}});
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "firstname" : "Ivan", "lastname" : "Ivanov", "age" : 30 }
+{ "_id" : ObjectId("5af169ff6c0eac38bb15dc41"), "firstname" : "Anna", "lastname" : "Ivanova", "age" : 25 }
+> db.user.find({age: {$gte: 10}});
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "firstname" : "Ivan", "lastname" : "Ivanov", "age" : 30 }
+{ "_id" : ObjectId("5af169ff6c0eac38bb15dc41"), "firstname" : "Anna", "lastname" : "Ivanova", "age" : 25 }
+{ "_id" : ObjectId("5af16bbf6c0eac38bb15dc42"), "firstname" : "Nesty", "lastname" : "Ivanova", "age" : 10 }
+> db.user.find({age: {$lte: 10}});
+{ "_id" : ObjectId("5af16bbf6c0eac38bb15dc42"), "firstname" : "Nesty", "lastname" : "Ivanova", "age" : 10 }
+{ "_id" : ObjectId("5af16bce6c0eac38bb15dc43"), "firstname" : "Pert", "lastname" : "Ivanov", "age" : 5 }
+> db.user.find({age: {$lt: 10}});
+{ "_id" : ObjectId("5af16bce6c0eac38bb15dc43"), "firstname" : "Pert", "lastname" : "Ivanov", "age" : 5 }
+>
+>
+> db.user.find({age: {$gt: 10, $lt:25}});
+>
+> db.user.find({age: {$gt: 10, $lt:30}});
+{ "_id" : ObjectId("5af169ff6c0eac38bb15dc41"), "firstname" : "Anna", "lastname" : "Ivanova", "age" : 25 }
+> db.user.find({age: {$gte: 10, $lte:25}});
+{ "_id" : ObjectId("5af169ff6c0eac38bb15dc41"), "firstname" : "Anna", "lastname" : "Ivanova", "age" : 25 }
+{ "_id" : ObjectId("5af16bbf6c0eac38bb15dc42"), "firstname" : "Nesty", "lastname" : "Ivanova", "age" : 10 }
+>
+>
+> db.user.insert({firstname:"Sveta", lastname:"Ivanova", age:10, id: 1});
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({firstname:"Igor", lastname:"Ivanov", age:3, id: 2});
+WriteResult({ "nInserted" : 1 })
+>
+>
+> db.user.find({});
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "firstname" : "Ivan", "lastname" : "Ivanov", "age" : 30 }
+{ "_id" : ObjectId("5af169ff6c0eac38bb15dc41"), "firstname" : "Anna", "lastname" : "Ivanova", "age" : 25 }
+{ "_id" : ObjectId("5af16bbf6c0eac38bb15dc42"), "firstname" : "Nesty", "lastname" : "Ivanova", "age" : 10 }
+{ "_id" : ObjectId("5af16bce6c0eac38bb15dc43"), "firstname" : "Pert", "lastname" : "Ivanov", "age" : 5 }
+{ "_id" : ObjectId("5af16cfc6c0eac38bb15dc44"), "firstname" : "Sveta", "lastname" : "Ivanova", "age" : 10, "id" : 1 }
+{ "_id" : ObjectId("5af16d0e6c0eac38bb15dc45"), "firstname" : "Igor", "lastname" : "Ivanov", "age" : 3, "id" : 2 }
+>
+>
+> db.user.find({id: {$exists: true}});
+{ "_id" : ObjectId("5af16cfc6c0eac38bb15dc44"), "firstname" : "Sveta", "lastname" : "Ivanova", "age" : 10, "id" : 1 }
+{ "_id" : ObjectId("5af16d0e6c0eac38bb15dc45"), "firstname" : "Igor", "lastname" : "Ivanov", "age" : 3, "id" : 2 }
+>
+>
+> db.user.find({id: {$exists: false}});
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "firstname" : "Ivan", "lastname" : "Ivanov", "age" : 30 }
+{ "_id" : ObjectId("5af169ff6c0eac38bb15dc41"), "firstname" : "Anna", "lastname" : "Ivanova", "age" : 25 }
+{ "_id" : ObjectId("5af16bbf6c0eac38bb15dc42"), "firstname" : "Nesty", "lastname" : "Ivanova", "age" : 10 }
+{ "_id" : ObjectId("5af16bce6c0eac38bb15dc43"), "firstname" : "Pert", "lastname" : "Ivanov", "age" : 5 }
+>
+>
+> db.user.find({$and: [{firstname:"Ivan"}, {lastname:"Ivanov"}]});
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "firstname" : "Ivan", "lastname" : "Ivanov", "age" : 30 }
+>
+>
+> db.user.find({$and: [{firstname: {$gt: "I"}}, {lastname:{$regex: "Ivan"}}]});
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "firstname" : "Ivan", "lastname" : "Ivanov", "age" : 30 }
+{ "_id" : ObjectId("5af16bbf6c0eac38bb15dc42"), "firstname" : "Nesty", "lastname" : "Ivanova", "age" : 10 }
+{ "_id" : ObjectId("5af16bce6c0eac38bb15dc43"), "firstname" : "Pert", "lastname" : "Ivanov", "age" : 5 }
+{ "_id" : ObjectId("5af16cfc6c0eac38bb15dc44"), "firstname" : "Sveta", "lastname" : "Ivanova", "age" : 10, "id" : 1 }
+{ "_id" : ObjectId("5af16d0e6c0eac38bb15dc45"), "firstname" : "Igor", "lastname" : "Ivanov", "age" : 3, "id" : 2 }
+>
+>
+> db.user.find({$and: [{firstname: {$gt: "S"}}, {lastname:{$regex: "Ivan"}}]});
+{ "_id" : ObjectId("5af16cfc6c0eac38bb15dc44"), "firstname" : "Sveta", "lastname" : "Ivanova", "age" : 10, "id" : 1 }
+>
+>
+> db.posts.insert({name:"Post 1", authors: ["Ivan", "Anna", "Oleg"]});
+WriteResult({ "nInserted" : 1 })
+> db.posts.insert({name:"Post 2", authors: ["Ivan", "Anna", "Sveta"]});
+WriteResult({ "nInserted" : 1 })
+> db.posts.insert({name:"Post 3", authors: ["Igor", "Anna", "Sveta"]});
+WriteResult({ "nInserted" : 1 })
+>
+>
+> db.posts.find();
+{ "_id" : ObjectId("5af16eeb6c0eac38bb15dc46"), "name" : "Post 1", "authors" : [ "Ivan", "Anna", "Oleg" ] }
+{ "_id" : ObjectId("5af16f016c0eac38bb15dc47"), "name" : "Post 2", "authors" : [ "Ivan", "Anna", "Sveta" ] }
+{ "_id" : ObjectId("5af16f0d6c0eac38bb15dc48"), "name" : "Post 3", "authors" : [ "Igor", "Anna", "Sveta" ] }
+>
+>
+> db.posts.find({authors: {$in: ["Ivan"]}});
+{ "_id" : ObjectId("5af16eeb6c0eac38bb15dc46"), "name" : "Post 1", "authors" : [ "Ivan", "Anna", "Oleg" ] }
+{ "_id" : ObjectId("5af16f016c0eac38bb15dc47"), "name" : "Post 2", "authors" : [ "Ivan", "Anna", "Sveta" ] }
+> db.posts.find({authors: {$in: ["Oleg"]}});
+{ "_id" : ObjectId("5af16eeb6c0eac38bb15dc46"), "name" : "Post 1", "authors" : [ "Ivan", "Anna", "Oleg" ] }
+> db.posts.find({authors: {$in: ["Sveta"]}});
+{ "_id" : ObjectId("5af16f016c0eac38bb15dc47"), "name" : "Post 2", "authors" : [ "Ivan", "Anna", "Sveta" ] }
+{ "_id" : ObjectId("5af16f0d6c0eac38bb15dc48"), "name" : "Post 3", "authors" : [ "Igor", "Anna", "Sveta" ] }
+>
+>
+> db.posts.find({authors: {$in: ["Sveta", "Igor"]}});
+{ "_id" : ObjectId("5af16f016c0eac38bb15dc47"), "name" : "Post 2", "authors" : [ "Ivan", "Anna", "Sveta" ] }
+{ "_id" : ObjectId("5af16f0d6c0eac38bb15dc48"), "name" : "Post 3", "authors" : [ "Igor", "Anna", "Sveta" ] }
+>
+>
+> db.posts.find({authors: {$in: ["Sveta", "Ivan"]}});
+{ "_id" : ObjectId("5af16eeb6c0eac38bb15dc46"), "name" : "Post 1", "authors" : [ "Ivan", "Anna", "Oleg" ] }
+{ "_id" : ObjectId("5af16f016c0eac38bb15dc47"), "name" : "Post 2", "authors" : [ "Ivan", "Anna", "Sveta" ] }
+{ "_id" : ObjectId("5af16f0d6c0eac38bb15dc48"), "name" : "Post 3", "authors" : [ "Igor", "Anna", "Sveta" ] }
+>
+>
+> db.posts.find({authors: {$all: ["Sveta", "Ivan"]}});
+{ "_id" : ObjectId("5af16f016c0eac38bb15dc47"), "name" : "Post 2", "authors" : [ "Ivan", "Anna", "Sveta" ] }
+>
+>
+> db.posts.update({name:"Post 1"}, {$set: {id: 1, name: "Post 111"}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+>
+>
+> db.posts.find();
+{ "_id" : ObjectId("5af16eeb6c0eac38bb15dc46"), "name" : "Post 111", "authors" : [ "Ivan", "Anna", "Oleg" ], "id" : 1 }
+{ "_id" : ObjectId("5af16f016c0eac38bb15dc47"), "name" : "Post 2", "authors" : [ "Ivan", "Anna", "Sveta" ] }
+{ "_id" : ObjectId("5af16f0d6c0eac38bb15dc48"), "name" : "Post 3", "authors" : [ "Igor", "Anna", "Sveta" ] }
+>
+>
+> db.posts.remove({name:"Post 2"});
+WriteResult({ "nRemoved" : 1 })
+>
+>
+> db.posts.find();
+{ "_id" : ObjectId("5af16eeb6c0eac38bb15dc46"), "name" : "Post 111", "authors" : [ "Ivan", "Anna", "Oleg" ], "id" : 1 }
+{ "_id" : ObjectId("5af16f0d6c0eac38bb15dc48"), "name" : "Post 3", "authors" : [ "Igor", "Anna", "Sveta" ] }
+>
+>
+> db.posts.drop();
+true
+>
+>
+> show collections;
+user
+>
+>
+> db.user.find();
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "firstname" : "Ivan", "lastname" : "Ivanov", "age" : 30 }
+{ "_id" : ObjectId("5af169ff6c0eac38bb15dc41"), "firstname" : "Anna", "lastname" : "Ivanova", "age" : 25 }
+{ "_id" : ObjectId("5af16bbf6c0eac38bb15dc42"), "firstname" : "Nesty", "lastname" : "Ivanova", "age" : 10 }
+{ "_id" : ObjectId("5af16bce6c0eac38bb15dc43"), "firstname" : "Pert", "lastname" : "Ivanov", "age" : 5 }
+{ "_id" : ObjectId("5af16cfc6c0eac38bb15dc44"), "firstname" : "Sveta", "lastname" : "Ivanova", "age" : 10, "id" : 1 }
+{ "_id" : ObjectId("5af16d0e6c0eac38bb15dc45"), "firstname" : "Igor", "lastname" : "Ivanov", "age" : 3, "id" : 2 }
+>
+>
+> db.users.drop();
+false
+> db.user.drop();
+true
+>
+>
+> show collections;
+>
+>
+> show collections;
+user
+>
+> db.user.find();
+{ "_id" : ObjectId("5af169c56c0eac38bb15dc40"), "firstname" : "Ivan", "lastname" : "Ivanov", "age" : 30 }
+{ "_id" : ObjectId("5af169ff6c0eac38bb15dc41"), "firstname" : "Anna", "lastname" : "Ivanova", "age" : 25 }
+{ "_id" : ObjectId("5af16bbf6c0eac38bb15dc42"), "firstname" : "Nesty", "lastname" : "Ivanova", "age" : 10 }
+{ "_id" : ObjectId("5af16bce6c0eac38bb15dc43"), "firstname" : "Pert", "lastname" : "Ivanov", "age" : 5 }
+{ "_id" : ObjectId("5af16cfc6c0eac38bb15dc44"), "firstname" : "Sveta", "lastname" : "Ivanova", "age" : 10, "id" : 1 }
+{ "_id" : ObjectId("5af16d0e6c0eac38bb15dc45"), "firstname" : "Igor", "lastname" : "Ivanov", "age" : 3, "id" : 2 }
+>
+
+
+
+Бекап
+
+x:\OSPanel\domains\gb-mysql-first\hw6\dbbackup>mongodump --host=localhost --port=27017
+2019-03-07T12:50:09.170+0300    writing admin.system.version to
+2019-03-07T12:50:09.316+0300    done dumping admin.system.version (1 document)
+2019-03-07T12:50:09.316+0300    writing gb-mysql.user to
+2019-03-07T12:50:09.318+0300    done dumping gb-mysql.user (6 documents)
+
+x:\OSPanel\domains\gb-mysql-first\hw6\dbbackup>
+x:\OSPanel\domains\gb-mysql-first\hw6\dbbackup>
+x:\OSPanel\domains\gb-mysql-first\hw6\dbbackup>mongorestore
+2019-03-07T12:52:42.065+0300    using default 'dump' directory
+2019-03-07T12:52:42.087+0300    preparing collections to restore from
+2019-03-07T12:52:42.089+0300    reading metadata for gb-mysql.user from dump\gb-mysql\user.metadata.json
+2019-03-07T12:52:42.236+0300    restoring gb-mysql.user from dump\gb-mysql\user.bson
+2019-03-07T12:52:42.248+0300    no indexes to restore
+2019-03-07T12:52:42.249+0300    finished restoring gb-mysql.user (6 documents)
+2019-03-07T12:52:42.249+0300    done
+
+x:\OSPanel\domains\gb-mysql-first\hw6\dbbackup>mongodump --host=localhost --port=27017 --db=gb-mysql --collection=user --out=dbbackupnew
+2019-03-07T12:54:31.749+0300    writing gb-mysql.user to
+2019-03-07T12:54:31.780+0300    done dumping gb-mysql.user (6 documents)
+
+x:\OSPanel\domains\gb-mysql-first\hw6\dbbackup>
